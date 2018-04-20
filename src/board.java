@@ -5,7 +5,7 @@ public class board {
         //TODO: variable size??????
 
         for (int row = 0; row<3; row++){
-            for (int col = 0; col<7; col+=2){
+            for (int col = 0; col<7; col+=2){//HARDCODED
                 field[row][((row+1)%2) + (col)]=new piece(true);
             }
         }
@@ -23,9 +23,7 @@ public class board {
         }
 
         if (Math.abs(initPosX-destPosX)==1&&Math.abs(initPosY-destPosY)==1){
-            field[destPosY][destPosX] = field[initPosX][initPosY];
-            //System.out.println(field[initPosX][initPosY].isDown());
-            //System.out.println(field[destPosY][destPosX].isDown());
+            field[destPosY][destPosX] = field[initPosY][initPosX];
             field[initPosY][initPosX] = null;
             return true;
         }
@@ -54,18 +52,23 @@ public class board {
 
     public void rngDie(){
         //TODO: KILL IN NO-MANS-LAND?????????
-        int rngY = (int)(Math.random()*8);
-        int rngX = (int)(((rngY+1)%2) + (Math.random()*3*2));//TODO: GOES OUT OF BOUNDS
+        int rngY = (int)(Math.random()*8);//HARDCODED
+        int rngX = (int)(((rngY+1)%2) + (Math.random()*3*2));
         field[rngY][rngX] = null;
     }
 
     public boolean canMove(int initPosX, int initPosY, int destPosX, int destPosY){
-        if(!((initPosX>=7||initPosX<=0)||
-                (initPosY>=7||initPosY<=0)||
-                (destPosX>=7||destPosX<=0)||
-                (destPosY>=7||destPosY<=0))){
+        if(!(initPosX<8&&initPosX>-1&&//hardcoded
+            initPosY<8&&initPosY>-1&&
+            destPosX<8&&destPosX>-1&&
+            destPosY<8&&destPosY>-1)){
+            System.out.println("y");
             return false;
         }
+        /*(!((initPosX>=7||initPosX<=0)||//HARDCODED
+                (initPosY>=7||initPosY<=0)||
+                (destPosX>=7||destPosX<=0)||
+                (destPosY>=7||destPosY<=0)))*/
 
         if (field[initPosY][initPosX]==null||field[destPosY][destPosX]!=null){
             return false;//TODO: REMOVE ==null BC IT SUCKS
@@ -101,7 +104,7 @@ public class board {
     @Override
     public String toString() {
         String out ="";
-        for (int row = 0; row < 8; row++){
+        for (int row = 0; row < 8; row++){//HARDCODED
             out += "|";
             for (int col = 0; col < 8; col++){
                 if (field[row][col]!=null){
