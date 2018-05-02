@@ -1,7 +1,10 @@
+import java.util.Scanner;
+
 public class board {
     static private final int SIZE_X = 8;
     static private final int SIZE_Y = 8;
     private piece[][] field;
+    private static Scanner in = new Scanner(System.in);
 
     public board(){
         //TODO: variable size??????
@@ -43,6 +46,23 @@ public class board {
         field[jumpPosY][jumpPosX] = null;
         //TODO: MAKE CONSECUTIVE JUMPS SELECTABLE
         //TODO: IMPLEMENT KINGS AND DIRECTION
+        boolean repeat = true;
+        int newPosX = initPosX;
+        int newPosY = initPosY;
+        /*while(repeat){
+            boolean[] arr = possJumps(newPosX,newPosY);
+
+            System.out.println("0, NE. "+arr[0]);
+            System.out.println("1, SE. "+arr[1]);
+            System.out.println("2, SW. "+arr[2]);
+            System.out.println("3, NW. "+arr[3]);
+            System.out.println("Which one do you choose?");
+            switch (in.nextInt()){
+                case 0:
+
+            }
+        }*/
+
         /*out:
         for (int x = -2; x<=2; x += 4){
             for (int y = -2; y<=2; y += 4){
@@ -55,7 +75,11 @@ public class board {
 
     public boolean[] possJumps(int initPosX, int initPosY){ //outputs stuff clockwise
         boolean[] neSeSwNw = new boolean[4];
-        neSeSwNw[0]=canJump()
+        neSeSwNw[0]=canJump(initPosX,initPosY,initPosX+2,initPosY+2);
+        neSeSwNw[1]=canJump(initPosX,initPosY,initPosX+2,initPosY-2);
+        neSeSwNw[2]=canJump(initPosX,initPosY,initPosX-2,initPosY-2);
+        neSeSwNw[3]=canJump(initPosX,initPosY,initPosX-2,initPosY+2);
+        return neSeSwNw;
     }
     public void rngDie(){
         int rngY = (int)(Math.random()*SIZE_Y);//HARDCODED
@@ -112,6 +136,35 @@ public class board {
         String out ="";
         for (int row = 0; row < 8; row++){//HARDCODED
             out += "|";
+            for (int col = 0; col < 9; col++){
+                if(col == 8)
+                {
+                    String rowValue = Integer.toString(row);
+                    out += rowValue;
+                }
+                else{
+                    if (field[row][col]!=null){
+                        if (field[row][col].isDown()){
+                            out += "B";
+                        } else {
+                            out += "W";
+                        }}else{
+                        out += " ";
+                    }
+                    out += "|";
+                }
+
+            }
+            out+="\n";
+        }
+        for(int col = 0; col < 8; col++){
+            out += " ";
+            out += Integer.toString(col);
+        }
+        return out;
+        /*String out ="";
+        for (int row = 0; row < 8; row++){//HARDCODED
+            out += "|";
             for (int col = 0; col < 8; col++){
                 if (field[row][col]!=null){
                 if (field[row][col].isDown()){
@@ -125,6 +178,6 @@ public class board {
             }
             out+="\n";
         }
-        return out;
+        return out;*/
     }
 }
