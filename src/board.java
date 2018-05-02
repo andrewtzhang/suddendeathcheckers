@@ -37,31 +37,77 @@ public class board {
         if(!canJump(initPosX, initPosY, destPosX, destPosY)){
             return false;
         }
-
-        int jumpPosX = (initPosX+destPosX)/2;
-        int jumpPosY = (initPosY+destPosY)/2;
-
-        field[destPosY][destPosX] = field[initPosY][initPosX];
-        field[initPosY][initPosX] = null;
-        field[jumpPosY][jumpPosX] = null;
+        jump(initPosX, initPosY, destPosX, destPosY);
         //TODO: MAKE CONSECUTIVE JUMPS SELECTABLE
         //TODO: IMPLEMENT KINGS AND DIRECTION
         boolean repeat = true;
         int newPosX = initPosX;
         int newPosY = initPosY;
-        /*while(repeat){
-            boolean[] arr = possJumps(newPosX,newPosY);
 
+        while(repeat){
+            boolean[] arr = possJumps(newPosX,newPosY);
+            boolean oof = true;
+            for (boolean bool:
+                 arr) {
+                if(bool){
+                    oof = false;
+                }
+            }
+            if (!oof){
+                repeat = false;
+                break;
+            }
+            System.out.println(toString());
+            System.out.println("X: "+newPosX+"\tY: "+newPosY);
             System.out.println("0, NE. "+arr[0]);
             System.out.println("1, SE. "+arr[1]);
             System.out.println("2, SW. "+arr[2]);
-            System.out.println("3, NW. "+arr[3]);
-            System.out.println("Which one do you choose?");
-            switch (in.nextInt()){
+            System.out.println("3, NW. "+arr[3]);System.out.println("Which one do you choose?");
+            int choice /*isnt real*/ = in.nextInt();
+            switch (choice){
                 case 0:
+                    if (arr[choice]){
+                        jump(newPosX,newPosY,newPosX+2,newPosY+2);
+                        newPosX =+2;
+                        newPosY =+2;
+                    }/*else{
+                        System.out.println("Choose a valid option");
+                        continue bad;
+                    }*/
+                    break;
+                case 1:
+                    if (arr[choice]){
+                        jump(newPosX,newPosY,newPosX+2,newPosY-2);
+                        newPosX =+2;
+                        newPosY =-2;
+                    }/*else{
+                        System.out.println("Choose a valid option");
+                        continue bad;
+                    }*/
+                    break;
+                case 2:
+                    if (arr[choice]){
+                        jump(newPosX,newPosY,newPosX-2,newPosY-2);
+                        newPosX =-2;
+                        newPosY =-2;
+                    }/*else{
+                        System.out.println("Choose a valid option");
+                        continue bad;
+                    }*/
+                    break;
+                case 3:
+                    if (arr[choice]){
+                        jump(newPosX,newPosY,newPosX-2,newPosY+2);
+                        newPosX =-2;
+                        newPosY =+2;
+                    }/*else{
+                        System.out.println("Choose a valid option");
+                        continue bad;
+                    }*/
+                    break;
 
             }
-        }*/
+        }
 
         /*out:
         for (int x = -2; x<=2; x += 4){
@@ -73,7 +119,16 @@ public class board {
         return true;
     }
 
-    public boolean[] possJumps(int initPosX, int initPosY){ //outputs stuff clockwise
+    private void jump(int initPosX, int initPosY, int destPosX, int destPosY){
+        int jumpPosX = (initPosX+destPosX)/2;
+        int jumpPosY = (initPosY+destPosY)/2;
+
+        field[destPosY][destPosX] = field[initPosY][initPosX];
+        field[initPosY][initPosX] = null;
+        field[jumpPosY][jumpPosX] = null;
+    }
+
+    private boolean[] possJumps(int initPosX, int initPosY){ //outputs stuff clockwise
         boolean[] neSeSwNw = new boolean[4];
         neSeSwNw[0]=canJump(initPosX,initPosY,initPosX+2,initPosY+2);
         neSeSwNw[1]=canJump(initPosX,initPosY,initPosX+2,initPosY-2);
@@ -81,18 +136,18 @@ public class board {
         neSeSwNw[3]=canJump(initPosX,initPosY,initPosX-2,initPosY+2);
         return neSeSwNw;
     }
+
     public void rngDie(){
         int rngY = (int)(Math.random()*SIZE_Y);//HARDCODED
         int rngX = (int)(((rngY+1)%2) + (Math.random()*3*2));
         field[rngY][rngX] = null;
     }
 
-    public boolean canMove(int initPosX, int initPosY, int destPosX, int destPosY){
+    private boolean canMove(int initPosX, int initPosY, int destPosX, int destPosY){
         if(!(initPosX<SIZE_X&&initPosX>-1&&
             initPosY<SIZE_Y&&initPosY>-1&&
             destPosX<SIZE_X&&destPosX>-1&&
             destPosY<SIZE_Y&&destPosY>-1)){
-            System.out.println("y");
             return false;
         }
         /*(!((initPosX>=7||initPosX<=0)||//HARDCODED
@@ -116,9 +171,13 @@ public class board {
         return true;
     }
 
-    public boolean canJump(int initPosX, int initPosY, int destPosX, int destPosY){
+    private boolean canJump(int initPosX, int initPosY, int destPosX, int destPosY){
         int jumpPosX = (initPosX+destPosX)/2;
         int jumpPosY = (initPosY+destPosY)/2;
+
+        if (!canMove(initPosX, initPosY, destPosX, destPosY)){
+            return false;
+        }
 
         if(Math.abs(initPosX-destPosX)!=2||Math.abs(destPosY-initPosY)!=2){
             return false;
