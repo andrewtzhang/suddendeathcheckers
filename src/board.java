@@ -1,17 +1,20 @@
 public class board {
-    private piece[][] field = new piece[8][8];
+    static private final int SIZE_X = 8;
+    static private final int SIZE_Y = 8;
+    private piece[][] field;
 
     public board(){
         //TODO: variable size??????
+        field = new piece[SIZE_Y][SIZE_X];
 
         for (int row = 0; row<3; row++){
-            for (int col = 0; col<7; col+=2){//HARDCODED
+            for (int col = 0; col<SIZE_X-1; col+=2){//HARDCODED
                 field[row][((row+1)%2) + (col)]=new piece(true);
             }
         }
 
         for (int row = 0; row<3; row++){
-            for (int col = 0; col<7; col+=2){
+            for (int col = 0; col<SIZE_X-1; col+=2){//HARDCODED
                 field[row+5][((row)%2) + (col)]=new piece(false);
             }
         }
@@ -35,33 +38,36 @@ public class board {
         int jumpPosX = (initPosX+destPosX)/2;
         int jumpPosY = (initPosY+destPosY)/2;
 
-        field[destPosY][destPosX] = field[initPosX][initPosY];
+        field[destPosY][destPosX] = field[initPosY][initPosX];
         field[initPosY][initPosX] = null;
         field[jumpPosY][jumpPosX] = null;
         //TODO: MAKE CONSECUTIVE JUMPS SELECTABLE
         //TODO: IMPLEMENT KINGS AND DIRECTION
-        out:
+        /*out:
         for (int x = -2; x<=2; x += 4){
             for (int y = -2; y<=2; y += 4){
                 if(move(destPosX,destPosY,destPosX+x,destPosY+y))
                     break out;
             }
-        }
+        }*/
         return true;
     }
 
+    public boolean[] possJumps(int initPosX, int initPosY){ //outputs stuff clockwise
+        boolean[] neSeSwNw = new boolean[4];
+        neSeSwNw[0]=canJump()
+    }
     public void rngDie(){
-        //TODO: KILL IN NO-MANS-LAND?????????
-        int rngY = (int)(Math.random()*8);//HARDCODED
+        int rngY = (int)(Math.random()*SIZE_Y);//HARDCODED
         int rngX = (int)(((rngY+1)%2) + (Math.random()*3*2));
         field[rngY][rngX] = null;
     }
 
     public boolean canMove(int initPosX, int initPosY, int destPosX, int destPosY){
-        if(!(initPosX<8&&initPosX>-1&&//hardcoded
-            initPosY<8&&initPosY>-1&&
-            destPosX<8&&destPosX>-1&&
-            destPosY<8&&destPosY>-1)){
+        if(!(initPosX<SIZE_X&&initPosX>-1&&
+            initPosY<SIZE_Y&&initPosY>-1&&
+            destPosX<SIZE_X&&destPosX>-1&&
+            destPosY<SIZE_Y&&destPosY>-1)){
             System.out.println("y");
             return false;
         }
@@ -94,7 +100,7 @@ public class board {
             return false;
         }
 
-        if(field[initPosY][initPosX].isDown()==field[jumpPosY][jumpPosY].isDown()){
+        if(field[initPosY][initPosX].isDown()==field[jumpPosY][jumpPosX].isDown()){
             return false;
         }
 
