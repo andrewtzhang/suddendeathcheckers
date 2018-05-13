@@ -12,7 +12,7 @@ public class tester {
         checkers.rngDie();
         checkers.rngDie();*/
         //System.out.println(checkers);
-        while(0==0)
+        while(true)
         {
             System.out.println("Enter coordinates of piece to move:");
             int input = in.nextInt();
@@ -23,8 +23,13 @@ public class tester {
             int x2 = input/10;
             int y2 = input%10;
 
-            checkers.move(x,y,x2,y2);
-            System.out.println(checkers);
+            if(!checkers.move(x,y,x2,y2)){
+                System.out.println("comeon do the right hting");
+            }else {
+                //checkers.rngDie();
+                //checkers.rngDie();
+                System.out.println(checkers);
+            }
         }
         /*System.out.println(checkers.move(0,5,1,4));
         System.out.println(checkers);

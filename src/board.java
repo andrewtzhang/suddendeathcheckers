@@ -38,11 +38,11 @@ public class board {
             return false;
         }
         jump(initPosX, initPosY, destPosX, destPosY);
-        //TODO: MAKE CONSECUTIVE JUMPS SELECTABLE
-        //TODO: IMPLEMENT KINGS AND DIRECTION
+        //TODO: MAKE CONSECUTIVE JUMPS SELECTABLE DONE
+        //TODO: IMPLEMENT KINGS AND DIRECTION DONE
         boolean repeat = true;
-        int newPosX = initPosX;
-        int newPosY = initPosY;
+        int newPosX = destPosX;
+        int newPosY = destPosY;
 
         while(repeat){
             boolean[] arr = possJumps(newPosX,newPosY);
@@ -62,50 +62,60 @@ public class board {
             System.out.println("0, NE. "+arr[0]);
             System.out.println("1, SE. "+arr[1]);
             System.out.println("2, SW. "+arr[2]);
-            System.out.println("3, NW. "+arr[3]);System.out.println("Which one do you choose?");
-            int choice /*isnt real*/ = in.nextInt();
-            switch (choice){
-                case 0:
-                    if (arr[choice]){
-                        jump(newPosX,newPosY,newPosX+2,newPosY+2);
-                        newPosX =+2;
-                        newPosY =+2;
-                    }/*else{
+            System.out.println("3, NW. "+arr[3]);
+            boolean choose = false;
+            for (boolean b:
+                 arr) {
+                if (b==true){
+                    choose = true;
+                }
+            }
+            if (choose) {
+                System.out.println("Which one do you choose?");
+                int choice /*isnt real*/ = in.nextInt();
+                switch (choice) {
+                    case 0:
+                        if (arr[choice]) {
+                            jump(newPosX, newPosY, newPosX + 2, newPosY + 2);
+                            newPosX = +2;
+                            newPosY = +2;
+                        }/*else{
                         System.out.println("Choose a valid option");
                         continue bad;
                     }*/
-                    break;
-                case 1:
-                    if (arr[choice]){
-                        jump(newPosX,newPosY,newPosX+2,newPosY-2);
-                        newPosX =+2;
-                        newPosY =-2;
-                    }/*else{
+                        break;
+                    case 1:
+                        if (arr[choice]) {
+                            jump(newPosX, newPosY, newPosX + 2, newPosY - 2);
+                            newPosX = +2;
+                            newPosY = -2;
+                        }/*else{
                         System.out.println("Choose a valid option");
                         continue bad;
                     }*/
-                    break;
-                case 2:
-                    if (arr[choice]){
-                        jump(newPosX,newPosY,newPosX-2,newPosY-2);
-                        newPosX =-2;
-                        newPosY =-2;
-                    }/*else{
+                        break;
+                    case 2:
+                        if (arr[choice]) {
+                            jump(newPosX, newPosY, newPosX - 2, newPosY - 2);
+                            newPosX = -2;
+                            newPosY = -2;
+                        }/*else{
                         System.out.println("Choose a valid option");
                         continue bad;
                     }*/
-                    break;
-                case 3:
-                    if (arr[choice]){
-                        jump(newPosX,newPosY,newPosX-2,newPosY+2);
-                        newPosX =-2;
-                        newPosY =+2;
-                    }/*else{
+                        break;
+                    case 3:
+                        if (arr[choice]) {
+                            jump(newPosX, newPosY, newPosX - 2, newPosY + 2);
+                            newPosX = -2;
+                            newPosY = +2;
+                        }/*else{
                         System.out.println("Choose a valid option");
                         continue bad;
                     }*/
-                    break;
+                        break;
 
+                }
             }
         }
 
@@ -180,6 +190,10 @@ public class board {
         }
 
         if(Math.abs(initPosX-destPosX)!=2||Math.abs(destPosY-initPosY)!=2){
+            return false;
+        }
+
+        if(field[jumpPosY][jumpPosX]==null){
             return false;
         }
 
