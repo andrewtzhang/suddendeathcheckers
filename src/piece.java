@@ -1,5 +1,5 @@
 public class piece {
-    private boolean goesDown;
+    private boolean isBlack;
 
     public boolean isKing() {
         return isKing;
@@ -11,12 +11,12 @@ public class piece {
 
     private boolean isKing;
 
-    public piece(boolean goesDown){
-        this.goesDown = goesDown;
+    public piece(boolean isBlack){
+        this.isBlack = isBlack;
     }
 
-    public boolean isDown() {
-        return goesDown;
+    public boolean isBlack() {
+        return isBlack;
     }
 
 

@@ -197,11 +197,43 @@ public class board {
             return false;
         }
 
-        if(field[initPosY][initPosX].isDown()==field[jumpPosY][jumpPosX].isDown()){
+        if(field[initPosY][initPosX].isBlack()==field[jumpPosY][jumpPosX].isBlack()){
             return false;
         }
 
         return true;
+    }
+
+    public int amtBlack(){
+        int amtBlack = 0;
+        for (piece[] row:
+             field) {
+            for (piece p:
+                 row) {
+                if (p != null){
+                    if (p.isBlack()){
+                        amtBlack++;
+                    }
+                }
+            }
+        }
+        return amtBlack;
+    }
+
+    public int amtWhite(){
+        int amtWhite = 0;
+        for (piece[] row:
+                field) {
+            for (piece p:
+                    row) {
+                if (p != null){
+                    if (!p.isBlack()){
+                        amtWhite++;
+                    }
+                }
+            }
+        }
+        return amtWhite;
     }
 
     @Override
@@ -217,7 +249,7 @@ public class board {
                 }
                 else{
                     if (field[row][col]!=null){
-                        if (field[row][col].isDown()){
+                        if (field[row][col].isBlack()){
                             out += "B";
                         } else {
                             out += "W";
@@ -240,7 +272,7 @@ public class board {
             out += "|";
             for (int col = 0; col < 8; col++){
                 if (field[row][col]!=null){
-                if (field[row][col].isDown()){
+                if (field[row][col].isBlack()){
                     out += "B";
                 } else {
                     out += "W";
