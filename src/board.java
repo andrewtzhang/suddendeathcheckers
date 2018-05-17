@@ -44,6 +44,7 @@ public class board {
         int newPosX = destPosX;
         int newPosY = destPosY;
 
+        /*
         while(repeat){
             boolean[] arr = possJumps(newPosX,newPosY);
             boolean oof = true;
@@ -72,52 +73,52 @@ public class board {
             }
             if (choose) {
                 System.out.println("Which one do you choose?");
-                int choice /*isnt real*/ = in.nextInt();
+                int choice = in.nextInt();
                 switch (choice) {
                     case 0:
                         if (arr[choice]) {
                             jump(newPosX, newPosY, newPosX + 2, newPosY + 2);
                             newPosX = +2;
                             newPosY = +2;
-                        }/*else{
-                        System.out.println("Choose a valid option");
-                        continue bad;
-                    }*/
+                        }//else{
+                        //System.out.println("Choose a valid option");
+                        //continue bad;
+                    //}
                         break;
                     case 1:
                         if (arr[choice]) {
                             jump(newPosX, newPosY, newPosX + 2, newPosY - 2);
                             newPosX = +2;
                             newPosY = -2;
-                        }/*else{
-                        System.out.println("Choose a valid option");
-                        continue bad;
-                    }*/
+                        }//else{
+                        //System.out.println("Choose a valid option");
+                        //continue bad;
+                    //}
                         break;
                     case 2:
                         if (arr[choice]) {
                             jump(newPosX, newPosY, newPosX - 2, newPosY - 2);
                             newPosX = -2;
                             newPosY = -2;
-                        }/*else{
-                        System.out.println("Choose a valid option");
-                        continue bad;
-                    }*/
+                        }//else{
+                        //System.out.println("Choose a valid option");
+                        //continue bad;
+                    //}
                         break;
                     case 3:
                         if (arr[choice]) {
                             jump(newPosX, newPosY, newPosX - 2, newPosY + 2);
                             newPosX = -2;
                             newPosY = +2;
-                        }/*else{
-                        System.out.println("Choose a valid option");
-                        continue bad;
-                    }*/
+                        }//else{
+                        //System.out.println("Choose a valid option");
+                        //continue bad;
+                    //}
                         break;
 
                 }
             }
-        }
+        }*/
 
         /*out:
         for (int x = -2; x<=2; x += 4){
