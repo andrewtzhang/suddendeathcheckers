@@ -1,48 +1,70 @@
-public class piece {
+public class piece implements moveable{
     private boolean isBlack;
     private piece[][] field;
+    private int posX, posY;
 
-    public piece(boolean isBlack, piece[][] field){
-        this.isBlack = isBlack;
-        this.field = field;
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
     }
 
     public boolean isBlack() {
         return isBlack;
     }
 
+    public void findPos(){
+        for (int r = 0; r < field.length; r++){
+            for (int c = 0; c < field[r].length; c++){
+                if (field[r][c]==this){
+                    posX = c;
+                    posY = r;
+                }
+            }
+        }
+    }
 
-    public boolean move(int initPosX, int initPosY, int destPosX, int destPosY){
-        if (!canMove(initPosX, initPosY, destPosX, destPosY)){
+    public piece(boolean isBlack, piece[][] field){
+        this.isBlack = isBlack;
+        this.field = field;
+    }
+
+    public boolean move(int destPosX, int destPosY){
+        findPos();
+        if (!canMove(destPosX, destPosY)){
             return false;
         }
 
-        if (Math.abs(initPosX-destPosX)==1&&Math.abs(initPosY-destPosY)==1){
-            field[destPosY][destPosX] = field[initPosY][initPosX];
-            field[initPosY][initPosX] = null;
+        if (Math.abs(posX -destPosX)==1&&Math.abs(posY -destPosY)==1){
+            field[destPosY][destPosX] = field[posY][posX];
+            field[posY][posX] = null;
             return true;
         }
 
-        if(!canJump(initPosX, initPosY, destPosX, destPosY)){
+        if(!canJump(destPosX, destPosY)){
             return false;
         }
-        jump(initPosX, initPosY, destPosX, destPosY);
+        jump(destPosX, destPosY);
         return true;
     }
 
-    private void jump(int initPosX, int initPosY, int destPosX, int destPosY){
-        int jumpPosX = (initPosX+destPosX)/2;
-        int jumpPosY = (initPosY+destPosY)/2;
+    private void jump(int destPosX, int destPosY){
+        findPos();
+        int jumpPosX = (posX +destPosX)/2;
+        int jumpPosY = (posY +destPosY)/2;
 
-        field[destPosY][destPosX] = field[initPosY][initPosX];
-        field[initPosY][initPosX] = null;
+        field[destPosY][destPosX] = field[posY][posX];
+        field[posY][posX] = null;
         field[jumpPosY][jumpPosX] = null;
     }
 
-    private boolean canMove(int initPosX, int initPosY, int destPosX, int destPosY){
+    private boolean canMove(int destPosX, int destPosY){
+        findPos();
         //bounds check
-        if(!(initPosX<field[0].length&&initPosX>-1&&
-                initPosY<field.length&&initPosY>-1&&
+        if(!(posX <field[0].length&& posX >-1&&
+                posY <field.length&& posY >-1&&
                 destPosX<field[0].length&&destPosX>-1&&
                 destPosY<field.length&&destPosY>-1)){
             return false;
@@ -56,21 +78,22 @@ public class piece {
             System.out.println(((destPosX+destPosY)%2));
             return false;
         }
-        if (!otherRules(initPosX, initPosY, destPosX, destPosY)){
+        if (!otherRules(destPosX, destPosY)){
             return false;
         }
         return true;
     }
 
-    private boolean canJump(int initPosX, int initPosY, int destPosX, int destPosY){
-        int jumpPosX = (initPosX+destPosX)/2;
-        int jumpPosY = (initPosY+destPosY)/2;
+    private boolean canJump(int destPosX, int destPosY){
+        findPos();
+        int jumpPosX = (posX +destPosX)/2;
+        int jumpPosY = (posY +destPosY)/2;
 
-        if (!canMove(initPosX, initPosY, destPosX, destPosY)){
+        if (!canMove(destPosX, destPosY)){
             return false;
         }
 
-        if(Math.abs(initPosX-destPosX)!=2||Math.abs(destPosY-initPosY)!=2){
+        if(Math.abs(posX -destPosX)!=2||Math.abs(destPosY- posY)!=2){
             return false;
         }
 
@@ -78,25 +101,39 @@ public class piece {
             return false;
         }
 
-        if(field[initPosY][initPosX].isBlack()==field[jumpPosY][jumpPosX].isBlack()){
+        if(field[posY][posX].isBlack()==field[jumpPosY][jumpPosX].isBlack()){
             return false;
         }
 
         return true;
     }
 
-    private boolean otherRules(int initPosX, int initPosY, int destPosX, int destPosY){
+    private boolean otherRules(int destPosX, int destPosY){
+        findPos();
         //BLACK GOES DOWN, WHITE GOES UP
-        if (isBlack&&initPosY-destPosY>0){
+        if (isBlack&& posY -destPosY>0){
             return false;
         }
-        if (!isBlack&&initPosY-destPosY<0){
+        if (!isBlack&& posY -destPosY<0){
             return false;
         }
         //is more than 2 away
-        if (Math.abs(initPosX-destPosX)>2&&Math.abs(initPosY-destPosY)>2){
+        if (Math.abs(posX -destPosX)>2&&Math.abs(posY -destPosY)>2){
             return false;
         }
+        return true;
+    }
+
+    public String toString(){
+        if (isBlack()){
+            return "B ";
+        }else{
+            return "W ";
+        }
+    }
+
+    //TODO this shiite
+    public boolean changeSide(){
         return true;
     }
 }

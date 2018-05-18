@@ -7,8 +7,7 @@ public class board {
     private static Scanner in = new Scanner(System.in);
     private boolean blackTurn = true;//BLACK MOVES FIRST AND IMPLEMENT
 
-    //TODO: RETARD ME PLEASE PUT ALL THE MOVING SHIITE INTO THE PIECE(of shit) CLASS AND HAVE SUBCLASSES W/ DIFF WAYS TO MOVE
-    //TODO: RETARD ME USE A KEYLISTENER TO DO SELECT WHICH FUCKING PIECE TO MOVE GAY IS NOT OkAY
+    
     public board(){
         //TODO: variable size??????
         field = new piece[SIZE_Y][SIZE_X];
@@ -27,7 +26,7 @@ public class board {
     }
 
     public boolean move(int initPosX, int initPosY, int destPosX, int destPosY){
-        return field[initPosY][initPosX].move(initPosX,initPosY,destPosX,destPosY);
+        return field[initPosY][initPosX].move(destPosX,destPosY);
     }
 
     public void rngDie(){
@@ -85,12 +84,9 @@ public class board {
                 }
                 else{
                     if (field[row][col]!=null){
-                        if (field[row][col].isBlack()){
-                            out += "B";
-                        } else {
-                            out += "W";
-                        }}else{
-                        out += " ";
+                        out += field[row][col].toString();
+                        }else{
+                        out += "  ";
                     }
                     out += "|";
                 }
@@ -99,26 +95,9 @@ public class board {
             out+="\n";
         }
         for(int col = 0; col < 8; col++){
-            out += " ";
+            out += "  ";
             out += Integer.toString(col);
         }
         return out;
-        /*String out ="";
-        for (int row = 0; row < 8; row++){//HARDCODED
-            out += "|";
-            for (int col = 0; col < 8; col++){
-                if (field[row][col]!=null){
-                if (field[row][col].isBlack()){
-                    out += "B";
-                } else {
-                    out += "W";
-                }}else{
-                    out += " ";
-                }
-                out += "|";
-            }
-            out+="\n";
-        }
-        return out;*/
     }
 }
