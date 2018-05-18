@@ -2,16 +2,6 @@ public class piece {
     private boolean isBlack;
     private piece[][] field;
 
-    public boolean isKing() {
-        return isKing;
-    }
-
-    public void setKing(boolean king) {
-        isKing = king;
-    }
-
-    private boolean isKing;
-
     public piece(boolean isBlack, piece[][] field){
         this.isBlack = isBlack;
         this.field = field;
@@ -37,11 +27,6 @@ public class piece {
             return false;
         }
         jump(initPosX, initPosY, destPosX, destPosY);
-        //TODO: MAKE CONSECUTIVE JUMPS SELECTABLE DONE
-        //TODO: IMPLEMENT KINGS AND DIRECTION DONE
-        boolean repeat = true;
-        int newPosX = destPosX;
-        int newPosY = destPosY;
         return true;
     }
 
@@ -55,26 +40,25 @@ public class piece {
     }
 
     private boolean canMove(int initPosX, int initPosY, int destPosX, int destPosY){
+        //bounds check
         if(!(initPosX<field[0].length&&initPosX>-1&&
                 initPosY<field.length&&initPosY>-1&&
                 destPosX<field[0].length&&destPosX>-1&&
                 destPosY<field.length&&destPosY>-1)){
             return false;
         }
-
-        if (field[initPosY][initPosX]==null||field[destPosY][destPosX]!=null){
+        //does it exist?
+        if (field[destPosY][destPosX]!=null){
             return false;
         }
-
+        //Checks places
         if (((destPosX+destPosY)%2)==0){
             System.out.println(((destPosX+destPosY)%2));
             return false;
         }
-
-        if (Math.abs(initPosX-destPosX)>2&&Math.abs(initPosY-destPosY)>2){
+        if (!otherRules(initPosX, initPosY, destPosX, destPosY)){
             return false;
         }
-
         return true;
     }
 
@@ -98,6 +82,21 @@ public class piece {
             return false;
         }
 
+        return true;
+    }
+
+    private boolean otherRules(int initPosX, int initPosY, int destPosX, int destPosY){
+        //BLACK GOES DOWN, WHITE GOES UP
+        if (isBlack&&initPosY-destPosY>0){
+            return false;
+        }
+        if (!isBlack&&initPosY-destPosY<0){
+            return false;
+        }
+        //is more than 2 away
+        if (Math.abs(initPosX-destPosX)>2&&Math.abs(initPosY-destPosY)>2){
+            return false;
+        }
         return true;
     }
 }
