@@ -13,10 +13,64 @@ import java.io.IOException;
 import java.awt.image.BufferedImage;
 import javax.sound.*;
 import java.io.*;
+import java.util.*;
+
 
 
 public class MainMenu {
-/*
+
+    public static void runCode() {
+
+        Scanner in = new Scanner(System.in);
+
+        board checkers = new board();
+        System.out.println(checkers);
+        boolean gameRunning = true;
+        while(gameRunning == true)
+        {
+            if(checkers.amtBlack() == 0) {
+                for(int x = 0; x < 100; x++) {
+                    System.out.println("WHITE WINS!");
+                }
+                gameRunning = false;
+            }
+            if(checkers.amtWhite() == 0) {
+                for(int x = 0; x < 100; x++) {
+                    System.out.println("BLACK WINS!");
+                }
+                gameRunning = false;
+            }
+
+            if(gameRunning == false) {
+                break;
+            }
+
+            if(checkers.isBlackTurn() == true) {
+                System.out.println("It's black's turn.");
+            }
+            else {
+                System.out.println("It's white's turn.");
+            }
+
+            System.out.println("The score is: " + "B" + (12 - checkers.amtWhite()) + " W" + (12 - checkers.amtBlack()));
+
+            System.out.println("Enter coordinates of piece to move (enter like \"##\"):");
+            int input = in.nextInt();
+            int x = input/10;
+            int y = input%10;
+            System.out.println("Enter coordinates of new location (enter like \"##\"):");
+            input = in.nextInt();
+            int x2 = input/10;
+            int y2 = input%10;
+
+            if(!checkers.move(x,y,x2,y2)){
+                System.out.println("Cannot move piece onto another piece. Try again.");
+            }else {
+                System.out.println(checkers);
+            }
+        }
+    }
+
     public static void music() {
 
         try {
@@ -121,7 +175,76 @@ public class MainMenu {
         ImageIcon pawnIcon = new ImageIcon(pawn);
 
 
-        JFrame f1 = new JFrame("Main Menu"), f2 = new JFrame("Gameplay"), f3 = new JFrame("Instructions");
+        JFrame f1 = new JFrame("Main Menu"), f3 = new JFrame("Instructions");
+
+
+
+
+
+        // JFrame game = new JFrame("King Me");
+        // game.setSize(500, 500);
+        // game.setVisible(false);
+        // game.setEnabled(false);
+
+        // JTextArea console = new JTextArea();
+        // console.setPreferredSize(new Dimension(300, 600));
+        // console.setEditable(false);
+        
+        // PrintStream printer = new PrintStream(new TextAreaOutputStream(console));
+        // System.setOut(printer);
+        // System.setErr(printer);
+
+        // JTextField input = new JTextField();
+        // input.setPreferredSize(new Dimension(350, 50));
+
+        // JButton quit = new JButton("Quit"), upload = new JButton("Upload"), enableAll = new JButton("Press to Start!");
+        // enableAll.setPreferredSize(new Dimension(100, 50));
+        // enableAll.addActionListener(new ActionListener(){
+        
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         runCode();
+        //     }
+        // });
+        // quit.setPreferredSize(new Dimension(100, 50));
+        // quit.addActionListener(new ActionListener(){
+        
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         System.exit(1);
+        //     }
+        // });
+        // upload.setPreferredSize(new Dimension(100, 50));
+        // upload.addActionListener(new ActionListener(){
+        
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         console.append("\n" + input.getText() + "\n");
+        //         input.setText("");
+        //     }
+        // });
+
+        // JPanel[][] bigTwo = new JPanel[2][3]; //creates array for grid cells (for more panels)
+        // game.setLayout(new GridLayout(2, 3));
+        // for(int m = 0; m < 2; m++) {
+        //     for(int n = 0; n < 3; n++) {
+        //         bigTwo[m][n] = new JPanel();
+        //         game.add(bigTwo[m][n]);
+        //     }
+        // }
+
+        // bigTwo[0][1].add(console);
+        // bigTwo[1][1].add(input);
+        // bigTwo[1][0].add(quit);
+        // bigTwo[1][2].add(upload);
+        // bigTwo[0][0].add(enableAll);
+
+        // game.pack();
+
+
+
+
+
         JButton startButton = new JButton("Start"), instructionsButton = new JButton("Instructions"); //main
         startButton.setPreferredSize(new Dimension(200, 100));
         instructionsButton.setPreferredSize(new Dimension(200, 100));
@@ -134,10 +257,12 @@ public class MainMenu {
         
             @Override
             public void actionPerformed(ActionEvent e) {
+                f1.setEnabled(true);
+                f1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                f1.pack();
+                f1.setVisible(true);
                 f3.setEnabled(false);
                 f3.setVisible(false);
-                f1.setEnabled(true);
-                f1.setVisible(true);
             }
         });
         //no u
@@ -188,68 +313,12 @@ public class MainMenu {
         p1[2][1].setBackground(Color.black);
         p1[2][2].setBackground(Color.red);
 
-
-        JLabel areYouSure = new JLabel("<html><font color=white><b> Are you<br>sure? </b></html>");
-        areYouSure.setPreferredSize(new Dimension(200, 100));
-        JButton sureYes = new JButton("Yes"), sureNo = new JButton("No");
-        sureYes.setPreferredSize(new Dimension(200, 100));
-        sureNo.addActionListener(new ActionListener(){
-        
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                f2.setEnabled(false);
-                f2.setVisible(false);
-                // runCheckers();
-            }
-        });
-        sureNo.setPreferredSize(new Dimension(200, 100));
-        sureNo.addActionListener(new ActionListener(){
-        
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                f2.setEnabled(false);
-                f2.setVisible(false);
-                f1.setEnabled(true);
-                f1.setVisible(true);
-            }
-        });
-
-        JPanel[][] p2 = new JPanel[5][3]; //creates array for grid cells (for more panels)
-        f2.setLayout(new GridLayout(5, 3));
-        for(int m = 0; m < 5; m++) {
-            for(int n = 0; n < 3; n++) {
-                p2[m][n] = new JPanel();
-                f2.add(p2[m][n]);
-            }
-        }
-
-        p2[1][1].add(areYouSure);
-        p2[2][1].add(sureYes);
-        p2[3][1].add(sureNo);
-
-        p2[0][0].setBackground(Color.black);
-        p2[0][1].setBackground(Color.red);
-        p2[0][2].setBackground(Color.black);
-        p2[1][0].setBackground(Color.red);
-        p2[1][1].setBackground(Color.black);
-        p2[1][2].setBackground(Color.red);
-        p2[2][0].setBackground(Color.black);
-        p2[2][1].setBackground(Color.red);
-        p2[2][2].setBackground(Color.black);
-        p2[3][0].setBackground(Color.red);
-        p2[3][1].setBackground(Color.black);
-        p2[3][2].setBackground(Color.red);
-        p2[4][0].setBackground(Color.black);
-        p2[4][1].setBackground(Color.red);
-        p2[4][2].setBackground(Color.black);
-
         JPanel[][] p3 = new JPanel[4][3]; //creates array for grid cells (for more panels)
         f3.setLayout(new GridLayout(4, 3));
         for(int m = 0; m < 4; m++) {
             for(int n = 0; n < 3; n++) {
                 p3[m][n] = new JPanel();
                 f3.add(p3[m][n]);
-                p3[m][n].setBackground(Color.blue);
             }
         }
         p3[1][1].add(instruct);
@@ -291,12 +360,9 @@ public class MainMenu {
         
             @Override
             public void actionPerformed(ActionEvent e) {
-                f2.setEnabled(true);
-                f2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                f2.pack();
-                f2.setVisible(true);
                 f1.setEnabled(false);
                 f1.setVisible(false);
+                runCode();
             }
         });
         instructionsButton.addActionListener(new ActionListener(){
@@ -311,6 +377,7 @@ public class MainMenu {
                 f1.setVisible(false);
             }
         });
+
     }
-*/
+
 }
