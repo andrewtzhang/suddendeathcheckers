@@ -3,18 +3,37 @@ public class piece implements moveable{
     private piece[][] field;
     private int posX, posY;
 
+    /*
+    @return:
+    precond:
+    poscond:
+     */
     public int getPosX() {
         return posX;
     }
 
+    /*
+    @return:
+    precond:
+    poscond:
+     */
     public int getPosY() {
         return posY;
     }
 
+    /*
+    @return:
+    precond:
+    poscond:
+     */
     public boolean isBlack() {
         return isBlack;
     }
 
+    /*
+    precond:
+    poscond:
+     */
     public void findPos(){
         for (int r = 0; r < field.length; r++){
             for (int c = 0; c < field[r].length; c++){
@@ -26,11 +45,22 @@ public class piece implements moveable{
         }
     }
 
+    /*
+    @params:
+    precond:
+    poscond:
+     */
     public piece(boolean isBlack, piece[][] field){
         this.isBlack = isBlack;
         this.field = field;
     }
 
+    /*
+    @params:
+    @return:
+    precond:
+    poscond:
+     */
     public boolean move(int destPosX, int destPosY){
         findPos();
         if (!canMove(destPosX, destPosY)){
@@ -50,6 +80,12 @@ public class piece implements moveable{
         return true;
     }
 
+    /*
+    @params:
+    @return:
+    precond:
+    poscond:
+     */
     private void jump(int destPosX, int destPosY){
         findPos();
         int jumpPosX = (posX +destPosX)/2;
@@ -60,6 +96,12 @@ public class piece implements moveable{
         field[jumpPosY][jumpPosX] = null;
     }
 
+    /*
+    @params:
+    @return:
+    precond:
+    poscond:
+     */
     private boolean canMove(int destPosX, int destPosY){
         findPos();
         //bounds check
@@ -84,6 +126,12 @@ public class piece implements moveable{
         return true;
     }
 
+    /*
+    @params:
+    @return:
+    precond:
+    poscond:
+     */
     private boolean canJump(int destPosX, int destPosY){
         findPos();
         int jumpPosX = (posX +destPosX)/2;
@@ -108,6 +156,12 @@ public class piece implements moveable{
         return true;
     }
 
+    /*
+    @params:
+    @return:
+    precond:
+    poscond:
+     */
     private boolean otherRules(int destPosX, int destPosY){
         findPos();
         //BLACK GOES DOWN, WHITE GOES UP
@@ -124,6 +178,11 @@ public class piece implements moveable{
         return true;
     }
 
+    /*
+    @return:
+    precond:
+    poscond:
+     */
     public String toString(){
         if (isBlack()){
             return "B ";
@@ -133,6 +192,12 @@ public class piece implements moveable{
     }
 
     //TODO this shiite
+
+    /*
+    @return:
+    precond:
+    poscond:
+     */
     public boolean changeSide(){
         return true;
     }

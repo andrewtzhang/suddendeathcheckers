@@ -5,9 +5,12 @@ public class board {
     static private final int SIZE_Y = 8;
     private piece[][] field;
     private static Scanner in = new Scanner(System.in);
-    private boolean blackTurn = true;//BLACK MOVES FIRST AND IMPLEMENT
+    private boolean blackTurn = true;//BLACK MOVES FIRST
 
-    
+    /*
+    precond:
+    poscond:
+     */
     public board(){
         //TODO: variable size??????
         field = new piece[SIZE_Y][SIZE_X];
@@ -25,16 +28,32 @@ public class board {
         }
     }
 
+    /*
+    @params:
+    @return:
+    precond:
+    poscond:
+     */
     public boolean move(int initPosX, int initPosY, int destPosX, int destPosY){
         return field[initPosY][initPosX].move(destPosX,destPosY);
     }
 
+    /*
+    @return:
+    precond:
+    poscond:
+     */
     public void rngDie(){
         int rngY = (int)(Math.random()*SIZE_Y);//HARDCODED
         int rngX = (int)(((rngY+1)%2) + (Math.random()*3*2));
         field[rngY][rngX] = null;
     }
 
+    /*
+    @return:
+    precond:
+    poscond:
+     */
     public int amtBlack(){
         int amtBlack = 0;
         for (piece[] row:
@@ -51,6 +70,11 @@ public class board {
         return amtBlack;
     }
 
+    /*
+    @return:
+    precond:
+    poscond:
+     */
     public int amtWhite(){
         int amtWhite = 0;
         for (piece[] row:
@@ -67,10 +91,20 @@ public class board {
         return amtWhite;
     }
 
+    /*
+    @return:
+    precond:
+    poscond:
+     */
     public boolean isBlackTurn(){
         return blackTurn;
     }
 
+    /*
+    @return:
+    precond:
+    poscond:
+     */
     @Override
     public String toString() {
         String out ="";
