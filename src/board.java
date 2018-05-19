@@ -1,15 +1,13 @@
-import java.util.Scanner;
-
 public class board {
     static private final int SIZE_X = 8;
     static private final int SIZE_Y = 8;
     private piece[][] field;
-    private static Scanner in = new Scanner(System.in);
     private boolean blackTurn = true;//BLACK MOVES FIRST
+    private int pastPosX = -1, pastPosY = -1;
 
     /*
-    precond:
-    poscond:
+    precond: none
+    poscond: a new board is initialized with pieces both sides
      */
     public board(){
         //TODO: variable size??????
@@ -29,19 +27,36 @@ public class board {
     }
 
     /*
-    @params:
-    @return:
-    precond:
-    poscond:
+    @params: position of piece to move and destination
+    @return: whether it was successful
+    precond: there is a board w/ pieces
+    poscond: the piece is either moved or not
      */
     public boolean move(int initPosX, int initPosY, int destPosX, int destPosY){
-        return field[initPosY][initPosX].move(destPosX,destPosY);
+        if (field[initPosY][initPosX].isBlack()!=blackTurn){
+            return false;
+        }
+        if (pastPosX!=-1&&pastPosY!=-1){
+            if (initPosX!=pastPosX&&initPosY!=pastPosY){
+                return false;
+            }
+        }
+        piece p = field[initPosY][initPosX];
+        boolean moved = field[initPosY][initPosX].move(destPosX,destPosY);
+        if(p.changeSide()){
+            blackTurn = !blackTurn;
+            pastPosX = -1;
+            pastPosY = -1;
+        } else {
+            pastPosX = initPosX;
+            pastPosY = initPosY;
+        }
+        return moved;
     }
 
     /*
-    @return:
-    precond:
-    poscond:
+    precond: there is a valid board
+    poscond: one position on the board (doesnt have to have a piece) is killed
      */
     public void rngDie(){
         int rngY = (int)(Math.random()*SIZE_Y);//HARDCODED
@@ -50,9 +65,9 @@ public class board {
     }
 
     /*
-    @return:
-    precond:
-    poscond:
+    @return: amount of black pieces
+    precond: there is a board
+    poscond: same
      */
     public int amtBlack(){
         int amtBlack = 0;
@@ -71,9 +86,9 @@ public class board {
     }
 
     /*
-    @return:
-    precond:
-    poscond:
+    @return: amount of white pieces
+    precond: there is a board
+    poscond: same
      */
     public int amtWhite(){
         int amtWhite = 0;
@@ -92,18 +107,18 @@ public class board {
     }
 
     /*
-    @return:
-    precond:
-    poscond:
+    @return: whether it is black sides turn
+    precond: the variable is initalized
+    poscond: same
      */
     public boolean isBlackTurn(){
         return blackTurn;
     }
 
     /*
-    @return:
-    precond:
-    poscond:
+    @return: A representation of the board
+    precond: there is a board
+    poscond: same
      */
     @Override
     public String toString() {

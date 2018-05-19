@@ -1,38 +1,41 @@
+//This is a standard checkers piece
+//Andrew Zhang
+//5/14/18
 public class piece implements moveable{
     private boolean isBlack;
-    private piece[][] field;
+    static private piece[][] field;
     private int posX, posY;
 
     /*
-    @return:
-    precond:
-    poscond:
+    @return: the x position of the piece
+    precond: the variable is initalized
+    poscond: same
      */
     public int getPosX() {
         return posX;
     }
 
     /*
-    @return:
-    precond:
-    poscond:
+    @return: the y position of the piece
+    precond: the variable is initalized
+    poscond: same
      */
     public int getPosY() {
         return posY;
     }
 
     /*
-    @return:
-    precond:
-    poscond:
+    @return: color of the piece
+    precond: the variable is initalized
+    poscond: same
      */
     public boolean isBlack() {
         return isBlack;
     }
 
     /*
-    precond:
-    poscond:
+    precond: the piece is in the field
+    poscond: the position of the piece is in the variables
      */
     public void findPos(){
         for (int r = 0; r < field.length; r++){
@@ -46,9 +49,9 @@ public class piece implements moveable{
     }
 
     /*
-    @params:
-    precond:
-    poscond:
+    @params: color of the piece, the field
+    precond: none
+    poscond: the variables are initialized
      */
     public piece(boolean isBlack, piece[][] field){
         this.isBlack = isBlack;
@@ -56,10 +59,10 @@ public class piece implements moveable{
     }
 
     /*
-    @params:
-    @return:
-    precond:
-    poscond:
+    @params: the destination of the piece
+    @return: whether it was successful or not
+    precond: the piece is on the board
+    poscond: the piece is either moved or not
      */
     public boolean move(int destPosX, int destPosY){
         findPos();
@@ -72,7 +75,6 @@ public class piece implements moveable{
             field[posY][posX] = null;
             return true;
         }
-
         if(!canJump(destPosX, destPosY)){
             return false;
         }
@@ -81,10 +83,10 @@ public class piece implements moveable{
     }
 
     /*
-    @params:
-    @return:
-    precond:
-    poscond:
+    @params: where to jump to
+    @return: whether it was successful
+    precond: the piece is on the board
+    poscond: the piece is either moved or not
      */
     private void jump(int destPosX, int destPosY){
         findPos();
@@ -97,12 +99,12 @@ public class piece implements moveable{
     }
 
     /*
-    @params:
-    @return:
-    precond:
-    poscond:
+    @params: where you want to move to
+    @return: whether you can or not
+    precond: the piece is on the board
+    poscond: same
      */
-    private boolean canMove(int destPosX, int destPosY){
+    public boolean canMove(int destPosX, int destPosY){
         findPos();
         //bounds check
         if(!(posX <field[0].length&& posX >-1&&
@@ -117,7 +119,6 @@ public class piece implements moveable{
         }
         //Checks places
         if (((destPosX+destPosY)%2)==0){
-            System.out.println(((destPosX+destPosY)%2));
             return false;
         }
         if (!otherRules(destPosX, destPosY)){
@@ -127,12 +128,12 @@ public class piece implements moveable{
     }
 
     /*
-    @params:
-    @return:
-    precond:
-    poscond:
+    @params: where you want to jump to
+    @return: whether you can or not
+    precond: the piece is on the board
+    poscond: same
      */
-    private boolean canJump(int destPosX, int destPosY){
+    public boolean canJump(int destPosX, int destPosY){
         findPos();
         int jumpPosX = (posX +destPosX)/2;
         int jumpPosY = (posY +destPosY)/2;
@@ -157,10 +158,10 @@ public class piece implements moveable{
     }
 
     /*
-    @params:
-    @return:
-    precond:
-    poscond:
+    @params: where you want to move to
+    @return: whether the move complies with the pieces own rules
+    precond: the piece is on the board
+    poscond: same
      */
     private boolean otherRules(int destPosX, int destPosY){
         findPos();
@@ -179,9 +180,9 @@ public class piece implements moveable{
     }
 
     /*
-    @return:
-    precond:
-    poscond:
+    @return: the string representation of the piece
+    precond: the isBlack variable is initialized
+    poscond: same
      */
     public String toString(){
         if (isBlack()){
@@ -191,14 +192,18 @@ public class piece implements moveable{
         }
     }
 
-    //TODO this shiite
-
     /*
-    @return:
-    precond:
-    poscond:
+    @return: whether to switch the side of who plays
+    precond: the piece is on the board
+    poscond: same
      */
     public boolean changeSide(){
+        if ((canJump(posX+2,posY+2)||canJump(posX-2,posY+2))&&isBlack()){
+            return false;
+        }
+        if ((canJump(posX+2,posY-2)||canJump(posX-2,posY-2))&&(!isBlack())){
+            return false;
+        }
         return true;
     }
 }
