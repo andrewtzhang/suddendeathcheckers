@@ -51,6 +51,28 @@ public class board {
             pastPosX = initPosX;
             pastPosY = initPosY;
         }
+
+        for (int x = 0; x<field[0].length;x++){
+            if (field[0][x]!=null){
+                if (!field[0][x].isBlack()){
+                    field[0][x] = new piece(field[0][x].isBlack(),field);
+                }
+            }
+        }
+
+        for (int x = 0; x<field[SIZE_Y-1].length;x++){
+            if (field[SIZE_Y-1][x]!=null){
+                if (field[SIZE_Y-1][x].isBlack()){
+                    field[SIZE_Y-1][x] = new piece(field[SIZE_Y-1][x].isBlack(),field);
+                }
+            }
+        }
+        int rngY = (int)(Math.random()*SIZE_Y);//HARDCODED
+        int rngX = (int)(((rngY+1)%2) + (Math.random()*3*2));
+        if (field[rngY][rngX] != null) {
+            field[rngY][rngX] = new piece(field[rngY][rngX].isBlack(),field);
+        }
+        rngDie();
         return moved;
     }
 
